@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuItemController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,5 +21,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('menu', MenuItemController::class);
 });
+
+Route::get('/table/{table_number}', [OrderController::class, 'showMenu'])->name('customer.menu');
 
 require __DIR__ . '/auth.php';
