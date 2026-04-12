@@ -114,4 +114,24 @@ class OrderController extends Controller
         // 5. Redirect back with a success message
         return redirect()->route('customer.menu', $table_number)->with('success', 'Order placed successfully! The kitchen is preparing your food.');
     }
+
+
+    public function kitchen()
+    {
+        // Fetch only pending orders, and load their related items and food names
+        $orders = Order::with('orderItems.menuItem')
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('kitchen.index', compact('orders'));
+    }
+
+    public function markAsCompleted($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->update(['status' => 'completed']);
+
+        return redirect()->route('kitchen.index')->with('success', "Order #{$order->id} marked as completed!");
+    }
 }

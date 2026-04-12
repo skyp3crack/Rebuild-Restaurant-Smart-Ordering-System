@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('menu', MenuItemController::class);
+
+    Route::get('/kitchen', [App\Http\Controllers\OrderController::class, 'kitchen'])->name('kitchen.index');
+    Route::post('/kitchen/{id}/complete', [App\Http\Controllers\OrderController::class, 'markAsCompleted'])->name('kitchen.complete');
 });
 
 Route::get('/table/{table_number}', [OrderController::class, 'showMenu'])->name('customer.menu');
