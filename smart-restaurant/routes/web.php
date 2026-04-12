@@ -23,5 +23,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/table/{table_number}', [OrderController::class, 'showMenu'])->name('customer.menu');
+Route::post('/table/{table_number}/cart', [OrderController::class, 'addToCart'])->name('customer.cart.add');
+Route::post('/table/{table_number}/cart/remove', [OrderController::class, 'removeFromCart'])->name('customer.cart.remove');
+Route::post('/table/{table_number}/checkout', [OrderController::class, 'checkout'])->name('customer.checkout');
 
 require __DIR__ . '/auth.php';

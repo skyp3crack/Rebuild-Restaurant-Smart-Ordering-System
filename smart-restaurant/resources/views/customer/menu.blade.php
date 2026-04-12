@@ -11,6 +11,13 @@
 <body class="bg-gray-100 text-gray-900 font-sans antialiased p-4">
 
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative m-4" role="alert">
+                <strong class="font-bold">Yay!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+
         <div class="p-6 bg-blue-600 text-white text-center">
             <h1 class="text-2xl font-bold">Our Menu</h1>
             <p class="text-sm">Ordering for Table {{ $table_number }}</p>
@@ -29,9 +36,14 @@
                                     <p class="text-sm text-gray-500">{{ $item->description }}</p>
                                     <p class="font-bold text-blue-600 mt-1">${{ number_format($item->price, 2) }}</p>
                                 </div>
-                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow">
-                                    Add
-                                </button>
+                                <form action="{{ route('customer.cart.add', $table_number) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="menu_item_id" value="{{ $item->id }}">
+                                    <button type="submit"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow">
+                                        Add
+                                    </button>
+                                </form>
                             </div>
                         @endforeach
                     </div>
@@ -40,6 +52,54 @@
         </div>
     </div>
 
+    @php $cart = session("cart_{$table_number}"); //this is to get the cart from the session
+    @endphp
+    
+    
+    @if($cart && count($cart) > 0) 
+        <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-lg p-4">
+            <div class="max-w-md mx-auto">
+                <h3 class="font-bold text-lg mb-2">Your Cart</h3>
+                <div class="max-h-32 overflow-y-auto mb-2 text-sm">
+                    @php $total = 0; @endphp
+                    @foreach($cart as $id => $details)
+                        @php $total += $details['price'] * $details['quantity']; @endphp
+                        <div class="flex justify-between items-center mb-2 border-b border-gray-100 pb-2">
+                            <div class="flex items-center space-x-2">
+                                <form action="{{ route('customer.cart.remove', $table_number) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="menu_item_id" value="{{ $id }}">
+                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs shadow-sm">-</button>
+                                </form>
+
+                                <span class="font-bold w-4 text-center">{{ $details['quantity'] }}</span>
+
+                                <form action="{{ route('customer.cart.add', $table_number) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="menu_item_id" value="{{ $id }}">
+                                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs shadow-sm">+</button>
+                                </form>
+
+                                <span class="ml-2 text-gray-800">{{ $details['name'] }}</span>
+                            </div>
+                            <span class="font-bold text-gray-700">${{ number_format($details['price'] * $details['quantity'], 2) }}</span>
+                        </div>
+                    @endforeach
+                </div>
+                
+                <div class="flex justify-between items-center border-t pt-2 mt-2">
+                    <span class="font-bold text-xl">Total: ${{ number_format($total, 2) }}</span>
+                    <form action="{{ route('customer.checkout', $table_number) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg shadow">
+                            Checkout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="pb-40"></div>
+    @endif
 </body>
 
 </html>
