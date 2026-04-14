@@ -50,10 +50,24 @@
                             class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">{{ $menuItem->description }}</textarea>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Edit Image</label>
+                    <div
+                        class="mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Current Image</label>
+
+                        @if($menuItem->image_path) {{-- if image saved, used asset storage to generate correct url --}}
+                            <div class="mb-4">
+                                <img src="{{ asset('storage/' . $menuItem->image_path) }}" alt="{{ $menuItem->name }}"
+                                    class="w-32 h-32 object-cover rounded-md shadow-sm border border-gray-300 dark:border-gray-500">
+                            </div>
+                        @else
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 italic">No image currently uploaded.</p>
+                        @endif
+
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">
+                            {{ $menuItem->image_path ? 'Upload New Image to Replace' : 'Upload Image' }}
+                        </label>
                         <input type="file" name="image" accept="image/*"
-                            class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
+                            class="w-full text-gray-700 dark:text-gray-300">
                     </div>
 
                     <div class="flex justify-end">
