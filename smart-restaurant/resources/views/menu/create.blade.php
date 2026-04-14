@@ -9,8 +9,9 @@
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
 
-                <form action="{{ route('menu.store') }}" method="POST">
-                    @csrf <div class="mb-4">
+                <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Item Name</label>
                         <input type="text" name="name" required
                             class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
@@ -40,7 +41,7 @@
 
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Upload Image</label>
-                        <input type="file" name="image_path" accept="image/*"
+                        <input type="file" name="image" accept="image/*"
                             class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
                     </div>
 

@@ -36,8 +36,14 @@ class MenuItemController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
+
+        //hanlde the file upload
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('menu_images', 'public');
+            $validated['image'] = $path;
+        }
 
         // 2. Save it to the database
         MenuItem::create($validated);
@@ -56,18 +62,31 @@ class MenuItemController extends Controller
 
     public function update(Request $request, $id)
     {
+        // 1. Validate the incoming data (CRUCIAL: The 'image' rule must be here!)
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
+        // 2. Find the existing item
         $menuItem = MenuItem::findOrFail($id);
+
+        // 3. Handle the image upload IF a new image was selected
+        if ($request->hasFile('image')) {
+            // Save the new file to the public storage
+            $path = $request->file('image')->store('menu_images', 'public');
+
+            // Add the new path to our $validated array so the database updates it
+            $validated['image_path'] = $path;
+        }
+
+        // 4. Update the database record with the new text AND the new image path
         $menuItem->update($validated);
 
-        return redirect()->route('menu.index');
+        return redirect()->route('menu.index')->with('success', 'Menu item updated successfully!');
     }
 
     public function destroy($id)

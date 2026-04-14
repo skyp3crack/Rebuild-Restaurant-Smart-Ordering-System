@@ -8,8 +8,17 @@
     <div class="py-12">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-
-                <form action="{{ route('menu.update', $menuItem->id) }}" method="POST">
+                @if ($errors->any())
+                    <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                        <strong class="font-bold">Oops! There were some problems:</strong>
+                        <ul class="mt-2 list-disc list-inside text-sm">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('menu.update', $menuItem->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT') <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Item Name</label>
@@ -39,6 +48,12 @@
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Description</label>
                         <textarea name="description" rows="3"
                             class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">{{ $menuItem->description }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Edit Image</label>
+                        <input type="file" name="image" accept="image/*"
+                            class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
                     </div>
 
                     <div class="flex justify-end">

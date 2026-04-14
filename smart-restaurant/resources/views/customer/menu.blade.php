@@ -32,6 +32,14 @@
                         @foreach($category->menuItems as $item)
                             <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-100">
                                 <div>
+                                    @if($item->image)
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
+                                            class="w-20 h-20 object-cover rounded-md mr-4 shadow-sm">
+                                    @else   
+                                        <div
+                                            class="w-20 h-20 bg-gray-200 rounded-md mr-4 flex items-center justify-center text-gray-400">
+                                            No Image</div>
+                                    @endif
                                     <h3 class="font-semibold text-lg">{{ $item->name }}</h3>
                                     <p class="text-sm text-gray-500">{{ $item->description }}</p>
                                     <p class="font-bold text-blue-600 mt-1">${{ number_format($item->price, 2) }}</p>
