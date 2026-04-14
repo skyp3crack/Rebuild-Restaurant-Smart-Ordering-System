@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('menu', MenuItemController::class);
+    Route::resource('categories', CategoryController::class);
 
     Route::get('/kitchen', [App\Http\Controllers\OrderController::class, 'kitchen'])->name('kitchen.index');
     Route::post('/kitchen/{id}/complete', [App\Http\Controllers\OrderController::class, 'markAsCompleted'])->name('kitchen.complete');

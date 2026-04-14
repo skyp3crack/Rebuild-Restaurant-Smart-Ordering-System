@@ -4,6 +4,10 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Manage Menu Items') }}
             </h2>
+            <a href="{{ route('categories.index') }}"
+                class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                Manage Categories
+            </a>
             <a href="{{ route('menu.create') }}"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 + Add New Item
