@@ -32,8 +32,8 @@
                         @foreach($category->menuItems as $item)
                             <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-100">
                                 <div>
-                                    @if($item->image)
-                                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
+                                    @if($item->image_path) {{-- check if item has image --}}
+                                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
                                             class="w-20 h-20 object-cover rounded-md mr-4 shadow-sm">
                                     @else   
                                         <div
