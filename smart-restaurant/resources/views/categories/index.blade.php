@@ -25,10 +25,6 @@
                                     <p class="text-sm text-gray-500">{{ $category->description }}</p>
                                 </div>
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('categories.edit', $category->id) }}"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Edit
-                                    </a>
                                     <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
