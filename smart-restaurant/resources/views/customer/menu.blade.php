@@ -95,13 +95,32 @@
                     @endforeach
                 </div>
                 
-                <div class="flex justify-between items-center border-t pt-2 mt-2">
-                    <span class="font-bold text-xl">Total: ${{ number_format($total, 2) }}</span>
+                {{-- Special Instructions / Order Notes --}}
+                <div class="border-t pt-3 mt-2">
                     <form action="{{ route('customer.checkout', $table_number) }}" method="POST">
                         @csrf
-                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg shadow">
-                            Checkout
-                        </button>
+                        <label for="order-notes" class="block text-sm font-semibold text-gray-700 mb-1">
+                            📝 Special Instructions
+                        </label>
+                        <textarea
+                            id="order-notes"
+                            name="notes"
+                            rows="2"
+                            maxlength="500"
+                            placeholder="e.g. No onions, extra spicy, allergies…"
+                            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 resize-none"
+                            oninput="document.getElementById('char-count').textContent = this.value.length"
+                        ></textarea>
+                        <p class="text-xs text-gray-400 text-right mt-1">
+                            <span id="char-count">0</span> / 500
+                        </p>
+
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="font-bold text-xl">Total: ${{ number_format($total, 2) }}</span>
+                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg shadow">
+                                Checkout
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

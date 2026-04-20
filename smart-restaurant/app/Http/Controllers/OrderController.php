@@ -79,6 +79,11 @@ class OrderController extends Controller
 
     public function checkout(Request $request, $table_number)
     {
+        // Validate the optional order notes
+        $request->validate([
+            'notes' => 'nullable|string|max:500',
+        ]);
+
         $cart = session()->get("cart_{$table_number}");
 
         // Prevent checking out with an empty cart
@@ -92,11 +97,12 @@ class OrderController extends Controller
             $total_price += $details['price'] * $details['quantity'];
         }
 
-        // 2. Create the main Order record
+        // 2. Create the main Order record (with optional notes)
         $order = Order::create([
             'table_number' => $table_number,
             'status' => 'pending',
             'total_price' => $total_price,
+            'notes' => $request->notes,
         ]);
 
         // 3. Create the individual Order Item records

@@ -39,6 +39,14 @@
                                 @endforeach
                             </ul>
 
+                            {{-- Special Instructions / Order Notes --}}
+                            @if($order->notes)
+                                <div class="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded-lg">
+                                    <p class="text-xs font-bold text-yellow-800 dark:text-yellow-300 uppercase tracking-wide mb-1">📝 Special Instructions</p>
+                                    <p class="text-sm text-yellow-900 dark:text-yellow-100">{{ $order->notes }}</p>
+                                </div>
+                            @endif
+
                             <form action="{{ route('kitchen.complete', $order->id) }}" method="POST">
                                 @csrf
                                 <button type="submit"
