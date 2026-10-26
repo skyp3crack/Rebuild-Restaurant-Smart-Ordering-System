@@ -32,6 +32,7 @@
 - [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
 - [Database Schema](#-database-schema)
+- [Static Demo](#-static-demo)
 - [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -184,6 +185,12 @@ erDiagram
 ```
 
 *Note: The `orders.status` field uses string values: `pending` (default) and `completed`.*
+
+---
+
+## 🌐 Static Demo
+
+Want to try it without installing anything? [`static-demo/`](static-demo) is a browser-only build of this app with the same screens and flows (customer ordering, kitchen board, menu and category management, auth and profile). Data is kept in your browser, so it deploys to any static host. See [`static-demo/README.md`](static-demo/README.md).
 
 ---
 
